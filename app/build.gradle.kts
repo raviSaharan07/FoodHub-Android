@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.dagger.hilt)//DaggerHilt
+    alias(libs.plugins.devtools.ksp)//ksp
 }
 
 android {
@@ -50,7 +52,14 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.core.splashScreen) //SplashScreen
-   
+    implementation(libs.kotlinx.coroutines.android) //Coroutine Android
+    implementation(libs.dagger.hilt)//DaggerHilt
+    ksp(libs.dagger.hilt.compiler)//DaggerHiltCompiler
+    implementation(libs.retrofit)//Retrofit
+    implementation(libs.converter.gson)//Converter Gson
+    implementation(libs.logging.interceptor)//Logging Interceptor
+
+
     testImplementation(libs.junit)
 
     androidTestImplementation(libs.androidx.junit)
