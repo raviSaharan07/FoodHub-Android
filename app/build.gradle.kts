@@ -58,7 +58,9 @@ dependencies {
     implementation(libs.retrofit)//Retrofit
     implementation(libs.converter.gson)//Converter Gson
     implementation(libs.logging.interceptor)//Logging Interceptor
-
+    implementation(libs.androidx.hilt.navigation.compose) //To use Hilt with Compose Navigation
+    implementation(libs.androidx.lifecycle.runtime.compose) // Connects Jetpack Compose with Android Lifecycle system
+    implementation(libs.androidx.navigation.compose)// Navigation Compose
 
     testImplementation(libs.junit)
 

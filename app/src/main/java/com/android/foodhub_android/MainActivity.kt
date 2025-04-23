@@ -5,12 +5,18 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.android.foodhub_android.data.FoodApi
+import com.android.foodhub_android.ui.features.auth.AuthScreen
+import com.android.foodhub_android.ui.features.auth.signup.SignUpScreen
 import com.android.foodhub_android.ui.theme.FoodHubAndroidTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -63,7 +69,11 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             FoodHubAndroidTheme {
-               Greeting("Android")
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    Box(modifier = Modifier.padding(innerPadding)){
+                        SignUpScreen()
+                    }
+                }
             }
         }
 
@@ -72,7 +82,7 @@ class MainActivity : ComponentActivity() {
         }
 
         CoroutineScope(Dispatchers.IO).launch {
-            delay(2000)
+            delay(1000)
             showSplashScreen = false
         }
     }
