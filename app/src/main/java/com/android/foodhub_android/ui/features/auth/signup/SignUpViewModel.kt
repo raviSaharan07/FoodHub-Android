@@ -1,12 +1,15 @@
 package com.android.foodhub_android.ui.features.auth.signup
 
+import androidx.activity.ComponentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.foodhub_android.data.FoodApi
 import com.android.foodhub_android.data.models.SignUpRequest
+import com.android.foodhub_android.ui.features.auth.BaseAuthViewModel
+import com.android.foodhub_android.ui.features.auth.login.SignInViewModel.SignInEvent
+import com.android.foodhub_android.ui.features.auth.login.SignInViewModel.SignInNavigationEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -14,7 +17,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class SignUpViewModel @Inject constructor(val foodApi : FoodApi) : ViewModel() {
+class SignUpViewModel @Inject constructor(override val foodApi : FoodApi) : BaseAuthViewModel(foodApi) {
 
     private val _uiState = MutableStateFlow<SignupEvent>(SignupEvent.Nothing)
     val uiState = _uiState.asStateFlow()
@@ -68,6 +71,12 @@ class SignUpViewModel @Inject constructor(val foodApi : FoodApi) : ViewModel() {
 
     }
 
+    fun onLoginClicked() {
+        viewModelScope.launch {
+            _navigationEvent.emit(SignupNavigationEvent.NavigateToLogin)
+        }
+    }
+
     sealed class SignupNavigationEvent{
         object NavigateToLogin : SignupNavigationEvent()
         object NavigateToHome : SignupNavigationEvent()
@@ -78,5 +87,30 @@ class SignUpViewModel @Inject constructor(val foodApi : FoodApi) : ViewModel() {
         object Success : SignupEvent()
         object Error : SignupEvent()
         object Loading : SignupEvent()
+    }
+
+    override fun loading() {
+        viewModelScope.launch {
+            _uiState.value = SignupEvent.Loading
+        }
+    }
+
+    override fun onGoogleError(msg: String) {
+        viewModelScope.launch {
+            _uiState.value = SignupEvent.Error
+        }
+    }
+
+    override fun onFacebookError(msg: String) {
+        viewModelScope.launch {
+            _uiState.value = SignupEvent.Error
+        }
+    }
+
+    override fun onSocialLoginInSuccess(token: String) {
+        viewModelScope.launch {
+            _uiState.value = SignupEvent.Success
+            _navigationEvent.emit(SignupNavigationEvent.NavigateToHome)
+        }
     }
 }

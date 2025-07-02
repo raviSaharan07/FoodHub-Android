@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.dagger.hilt)//DaggerHilt
     alias(libs.plugins.devtools.ksp)//ksp
+    alias(libs.plugins.kotlin.serialization)//Kotlin Serialization
 }
 
 android {
@@ -54,6 +55,7 @@ dependencies {
     implementation(libs.androidx.core.splashScreen) //SplashScreen
     implementation(libs.kotlinx.coroutines.android) //Coroutine Android
     implementation(libs.dagger.hilt)//DaggerHilt
+    implementation(libs.google.googleid)
     ksp(libs.dagger.hilt.compiler)//DaggerHiltCompiler
     implementation(libs.retrofit)//Retrofit
     implementation(libs.converter.gson)//Converter Gson
@@ -61,6 +63,11 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose) //To use Hilt with Compose Navigation
     implementation(libs.androidx.lifecycle.runtime.compose) // Connects Jetpack Compose with Android Lifecycle system
     implementation(libs.androidx.navigation.compose)// Navigation Compose
+    implementation(libs.kotlinx.serialization.json)// Kotlinx Serialization
+    implementation(libs.androidx.credentials) // Password less authentication across different identity providers
+    implementation(libs.androidx.credentials.play.services.auth) // Bridge between credentials and Google play services
+    implementation(libs.google.googleid)// Google one tap sign in
+    implementation(libs.facebook.android.sdk)// Facebook Sign In SDK
 
     testImplementation(libs.junit)
 

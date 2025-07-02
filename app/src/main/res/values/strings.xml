@@ -5,6 +5,7 @@
     <string name="food_hub">FoodHub</string>
     <string name="food_hub_desc">Your favourite foods delivered fast at your door.</string>
     <string name="already_have_account">Already have an account? Login</string>
+    <string name="dont_have_account">Don\'t have an account? Signup</string>
     <string name="sign_with_email">Sign in with Email</string>
     <string name="sign_with_facebook">Facebook</string>
     <string name="sign_with_google">Google</string>
@@ -13,4 +14,11 @@
     <string name="password">Password</string>
     <string name="email">E-Mail</string>
     <string name="full_name">Full Name</string>
+    <string name="sign_in">Sign In</string>
+    <!-- For Facebook Sign In SDK -->
+    <string name="facebook_app_id">616565684224807</string>
+    <string name="fb_login_protocol_scheme">fb1234</string>
+    <string name="facebook_client_token">6f5a9765b7a2e9b4ab2f53a847747f6f</string>
+
+
 </resources>

@@ -16,6 +16,7 @@ import androidx.compose.material3.ButtonDefaults.buttonColors
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -32,12 +33,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.android.foodhub_android.R
 import com.android.foodhub_android.ui.GroupSocialButtons
+import com.android.foodhub_android.ui.features.auth.signup.SignUpViewModel
+import com.android.foodhub_android.ui.navigation.Home
+import com.android.foodhub_android.ui.navigation.Login
+import com.android.foodhub_android.ui.navigation.SignUp
 import com.android.foodhub_android.ui.theme.Orange
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-fun AuthScreen() {
+fun AuthScreen(navController: NavController, viewModel : AuthScreenViewModel = hiltViewModel()) {
     val imageSize = remember {
         mutableStateOf(IntSize.Zero)
     }
@@ -49,6 +58,24 @@ fun AuthScreen() {
         ),
         startY = imageSize.value.height.toFloat()/3
     )
+
+    LaunchedEffect(true) {
+        viewModel.navigationEvent.collectLatest { event->
+            when(event){
+                is AuthScreenViewModel.AuthNavigationEvent.NavigateToHome -> {
+                    navController.navigate(Home) {
+                        popUpTo(com.android.foodhub_android.ui.navigation.AuthScreen) {
+                            inclusive = true
+                        }
+                    }
+                }
+                is AuthScreenViewModel.AuthNavigationEvent.NavigateToSignUp ->{
+                    navController.navigate(SignUp)
+                }
+            }
+        }
+    }
+
     Box(modifier= Modifier
         .fillMaxSize()
         .background(Color.Black)
@@ -111,12 +138,12 @@ fun AuthScreen() {
             .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ){
-            GroupSocialButtons(onFacebookClick = {}, onGoogleClick = {})
+            GroupSocialButtons(viewModel = viewModel)
 
             Spacer(modifier = Modifier.height(16.dp))
 
             Button(
-                onClick = {},
+                onClick = {navController.navigate(SignUp)},
                 modifier = Modifier.fillMaxWidth(),
                 colors = buttonColors(containerColor = Color.Gray.copy(alpha = 0.2f)),
                 shape = RoundedCornerShape(32.dp),
@@ -128,7 +155,9 @@ fun AuthScreen() {
                 )
             }
 
-            TextButton(onClick = {}){
+            TextButton(onClick = {
+                navController.navigate(Login)
+            }){
                 Text(
                     text = stringResource(id = R.string.already_have_account),
                     color = Color.White
@@ -143,5 +172,5 @@ fun AuthScreen() {
 @Preview(showBackground = true)
 @Composable
 fun AuthScreenPreview(){
-    AuthScreen()
+    //AuthScreen()
 }
