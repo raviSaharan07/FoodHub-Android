@@ -1,10 +1,11 @@
 package com.android.foodhub_android.ui.features.auth.login
 
-import android.content.Context
-import androidx.activity.ComponentActivity
 import androidx.lifecycle.viewModelScope
 import com.android.foodhub_android.data.FoodApi
+import com.android.foodhub_android.data.FoodHubSession
 import com.android.foodhub_android.data.models.SignInRequest
+import com.android.foodhub_android.data.remote.ApiResponse
+import com.android.foodhub_android.data.remote.safeApiCall
 import com.android.foodhub_android.ui.features.auth.BaseAuthViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
@@ -16,7 +17,7 @@ import kotlinx.coroutines.launch
 
 
 @HiltViewModel
-class SignInViewModel @Inject constructor(override val foodApi : FoodApi) : BaseAuthViewModel(foodApi) {
+class SignInViewModel @Inject constructor(override val foodApi : FoodApi, val session: FoodHubSession) : BaseAuthViewModel(foodApi) {
     private val _uiState = MutableStateFlow<SignInEvent>(SignInEvent.Nothing)
     val uiState = _uiState.asStateFlow()
 
@@ -40,25 +41,33 @@ class SignInViewModel @Inject constructor(override val foodApi : FoodApi) : Base
     fun onSignInClick(){
         viewModelScope.launch {
             _uiState.value = SignInEvent.Loading
-            try {
-                val response = foodApi.signIn(
-                    request = SignInRequest(
+                val response = safeApiCall {
+                    foodApi.signIn(SignInRequest(
                         email = email.value,
                         password = password.value
-                    )
-                )
-
-                if(response.token.isNotEmpty()){
+                    ))
+                }
+            when(response){
+                is ApiResponse.Success -> {
                     _uiState.value = SignInEvent.Success
+                    session.storeToken(response.data.token)
                     _navigationEvent.emit(SignInNavigationEvent.NavigateToHome)
                 }
-            }catch (e : Exception){
-                e.printStackTrace()
-                _uiState.value = SignInEvent.Error
+                else -> {
+                    val err = (response as? ApiResponse.Error)?.code ?: 500
+                    error = "Sign In Failed"
+                    errorDescription = "Failed to sign up"
+                    when(err){
+                        400 -> {
+                            error = "Invalid Credentials"
+                            errorDescription = "Invalid email or password"
+                        }
+                    }
+                    _uiState.value = SignInEvent.Error
+                }
             }
         }
     }
-
     fun onSignUpClicked() {
         viewModelScope.launch {
             _navigationEvent.emit(SignInNavigationEvent.NavigateToSignUp)
@@ -66,15 +75,16 @@ class SignInViewModel @Inject constructor(override val foodApi : FoodApi) : Base
     }
 
     sealed class SignInNavigationEvent{
-        object NavigateToSignUp : SignInNavigationEvent()
-        object NavigateToHome : SignInNavigationEvent()
+        data object NavigateToSignUp : SignInNavigationEvent()
+        data object NavigateToHome : SignInNavigationEvent()
+        data object showErrorDialog : SignInNavigationEvent()
     }
 
     sealed class SignInEvent{
-        object Nothing : SignInEvent()
-        object Success : SignInEvent()
-        object Error : SignInEvent()
-        object Loading : SignInEvent()
+        data object Nothing : SignInEvent()
+        data object Success : SignInEvent()
+        data object Error : SignInEvent()
+        data object Loading : SignInEvent()
     }
 
     override fun loading() {
@@ -85,19 +95,26 @@ class SignInViewModel @Inject constructor(override val foodApi : FoodApi) : Base
 
     override fun onGoogleError(msg: String) {
         viewModelScope.launch {
+            error = "Google Sign In Failed"
+            errorDescription = msg
             _uiState.value = SignInEvent.Error
+            _navigationEvent.emit(SignInNavigationEvent.showErrorDialog)
         }
     }
 
     override fun onFacebookError(msg: String) {
         viewModelScope.launch {
+            error = "Facebook Sign In Failed"
+            errorDescription = msg
             _uiState.value = SignInEvent.Error
+            _navigationEvent.emit(SignInNavigationEvent.showErrorDialog)
         }
     }
 
     override fun onSocialLoginInSuccess(token: String) {
         viewModelScope.launch {
             _uiState.value = SignInEvent.Success
+            session.storeToken(token)
             _navigationEvent.emit(SignInNavigationEvent.NavigateToHome)
         }
     }

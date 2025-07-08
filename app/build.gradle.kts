@@ -68,6 +68,10 @@ dependencies {
     implementation(libs.androidx.credentials.play.services.auth) // Bridge between credentials and Google play services
     implementation(libs.google.googleid)// Google one tap sign in
     implementation(libs.facebook.android.sdk)// Facebook Sign In SDK
+    implementation(libs.coil.compose) // Coil Image Loader
+    implementation(libs.coil.network.okhttp) // Coil Image Loader
+    implementation(libs.androidx.foundation)// Foundation for Jetpack Compose
+    implementation(libs.androidx.animation) // Animation for Jetpack Compose
 
     testImplementation(libs.junit)
 
