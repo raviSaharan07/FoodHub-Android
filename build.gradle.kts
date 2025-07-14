@@ -6,4 +6,5 @@ plugins {
     alias(libs.plugins.dagger.hilt) apply false//DaggerHilt
     alias(libs.plugins.devtools.ksp) apply false//ksp
     alias(libs.plugins.kotlin.serialization) apply false// Kotlin Serialization
+    alias(libs.plugins.kotlin.parcelize) apply false //Kotlin Parcelize
 }

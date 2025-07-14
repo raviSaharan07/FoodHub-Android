@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -5,7 +8,19 @@ plugins {
     alias(libs.plugins.dagger.hilt)//DaggerHilt
     alias(libs.plugins.devtools.ksp)//ksp
     alias(libs.plugins.kotlin.serialization)//Kotlin Serialization
+    alias(libs.plugins.kotlin.parcelize)//Kotlin Parcelize
 }
+
+//Extracting the keys defined in local.properties
+val localProperties = Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) {
+        load(FileInputStream(file))
+    }
+}
+val mapsApiKey = localProperties["mapsApiKey"] as? String ?: ""
+val facebookAppId = localProperties["facebookAppId"] as? String ?: ""
+val facebookClientToken = localProperties["facebookClientToken"] as? String ?: ""
 
 android {
     namespace = "com.android.foodhub_android"
@@ -19,6 +34,10 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        manifestPlaceholders["MAPS_API_KEY"] = mapsApiKey
+        manifestPlaceholders["FACEBOOK_APP_ID"] = facebookAppId
+        manifestPlaceholders["FACEBOOK_CLIENT_ID"] = facebookClientToken
     }
 
     buildTypes {
@@ -72,6 +91,10 @@ dependencies {
     implementation(libs.coil.network.okhttp) // Coil Image Loader
     implementation(libs.androidx.foundation)// Foundation for Jetpack Compose
     implementation(libs.androidx.animation) // Animation for Jetpack Compose
+    implementation(libs.maps.compose) // Maps for Jetpack Compose
+    implementation(libs.play.services.location) // Location for Google Play Services
+    implementation(libs.kotlinx.coroutines.play.services) // Coroutines for Google Play Services
+    implementation(libs.stripe.android) // Stripe for Android
 
     testImplementation(libs.junit)
 

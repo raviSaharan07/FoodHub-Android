@@ -3,24 +3,41 @@ package com.android.foodhub_android.ui.navigation
 import com.android.foodhub_android.data.models.FoodItem
 import kotlinx.serialization.Serializable
 
-@Serializable
-object Login
+interface NavRoute
 
 @Serializable
-object SignUp
+object Login: NavRoute
 
 @Serializable
-object AuthScreen
+object SignUp: NavRoute
 
 @Serializable
-object Home
+object AuthScreen: NavRoute
+
+@Serializable
+object Home: NavRoute
 
 @Serializable
 data class RestaurantDetails(
     val restaurantID: String,
     val restaurantName: String,
     val restaurantImageUrl: String,
-)
+): NavRoute
 
 @Serializable
-data class FoodDetails(val foodItem: FoodItem)
+data class FoodDetails(val foodItem: FoodItem): NavRoute
+
+@Serializable
+object Cart: NavRoute
+
+@Serializable
+object Notification: NavRoute
+
+@Serializable
+object AddressList: NavRoute
+
+@Serializable
+object AddAddress: NavRoute
+
+@Serializable
+data class OrderSuccess(val orderId: String) : NavRoute

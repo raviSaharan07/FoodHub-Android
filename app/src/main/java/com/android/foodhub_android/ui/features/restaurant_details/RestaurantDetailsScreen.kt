@@ -224,13 +224,12 @@ fun SharedTransitionScope.RestaurantDetailsHeader(
         IconButton(
             onClick = onBackButton,
             modifier = Modifier
-                .padding(2.dp)
-                .size(78.dp)
                 .align(Alignment.TopStart)
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_back_button),
-                contentDescription = null
+                contentDescription = null,
+                modifier = Modifier.size(48.dp).padding(2.dp)
             )
         }
         IconButton(

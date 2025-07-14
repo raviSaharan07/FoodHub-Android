@@ -24,6 +24,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -91,11 +93,30 @@ fun SharedTransitionScope.HomeScreen(
 
         when (uiState.value) {
             is HomeScreenViewModel.HomeScreenState.Loading -> {
-                Text(text = "Loading")
+                Column(modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center){
+                    Spacer(modifier = Modifier.size(16.dp))
+                    CircularProgressIndicator()
+                    Text(
+                        text = "Loading...",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = Color.Gray
+                    )
+                }
             }
 
             is HomeScreenViewModel.HomeScreenState.Empty -> {
-                Text(text = "Empty")
+                Column(modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center) {
+                    Spacer(modifier = Modifier.size(16.dp))
+                    Text(
+                        text = "Empty!!",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = Color.Gray
+                    )
+                }
             }
 
             is HomeScreenViewModel.HomeScreenState.Success -> {
