@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.devtools.ksp)//ksp
     alias(libs.plugins.kotlin.serialization)//Kotlin Serialization
     alias(libs.plugins.kotlin.parcelize)//Kotlin Parcelize
+    alias(libs.plugins.google.services) // Google Services
 }
 
 //Extracting the keys defined in local.properties
@@ -27,7 +28,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.android.foodhub_android"
+        applicationId = "com.android.foodhub_android_ravi"
         minSdk = 26
         targetSdk = 35
         versionCode = 1
@@ -95,6 +96,8 @@ dependencies {
     implementation(libs.play.services.location) // Location for Google Play Services
     implementation(libs.kotlinx.coroutines.play.services) // Coroutines for Google Play Services
     implementation(libs.stripe.android) // Stripe for Android
+    implementation(platform(libs.firebase.bom)) // Firebase BOM
+    implementation(libs.firebase.messaging) // Firebase Messaging
 
     testImplementation(libs.junit)
 

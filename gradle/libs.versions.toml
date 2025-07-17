@@ -1,5 +1,5 @@
 [versions]
-agp = "8.11.0"
+agp = "8.11.1"
 animation = "1.8.3"
 coilCompose = "3.2.0"
 converterGson = "2.11.0"
@@ -28,6 +28,8 @@ daggerHilt="2.56.1"
 kspVersion="2.0.21-1.0.28"
 googleidVersion = "1.1.1"
 stripeAndroid = "21.20.2"
+google_service = "4.4.3"
+firebase_bom = "33.16.0"
 
 [libraries]
 androidx-animation = { module = "androidx.compose.animation:animation", version.ref = "animation" }
@@ -67,6 +69,8 @@ play-services-location = { module = "com.google.android.gms:play-services-locati
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 google-googleid = { group = "com.google.android.libraries.identity.googleid", name = "googleid", version.ref = "googleidVersion" }
 stripe-android = { module = "com.stripe:stripe-android", version.ref = "stripeAndroid" }
+firebase-bom = {module="com.google.firebase:firebase-bom",version.ref="firebase_bom"}
+firebase-messaging = {module = "com.google.firebase:firebase-messaging-ktx"}
 
 
 [plugins]
@@ -77,4 +81,5 @@ dagger-hilt = {id="com.google.dagger.hilt.android",version.ref="daggerHilt"}
 devtools-ksp={id="com.google.devtools.ksp",version.ref="kspVersion"}
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+google-services = {id = "com.google.gms.google-services",version.ref="google_service"}
 

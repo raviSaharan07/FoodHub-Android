@@ -240,7 +240,7 @@ fun CartScreen(navController: NavController, viewModel: CartViewModel) {
                         text = message,
                         style = MaterialTheme.typography.bodyMedium
                     )
-                    Button(onClick = {})
+                    Button(onClick = {viewModel.getCart()})
                     {
                         Text(text = "Retry")
                     }

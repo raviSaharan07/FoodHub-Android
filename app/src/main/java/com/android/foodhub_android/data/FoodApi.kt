@@ -9,9 +9,13 @@ import com.android.foodhub_android.data.models.CartResponse
 import com.android.foodhub_android.data.models.CategoriesResponse
 import com.android.foodhub_android.data.models.ConfirmPaymentRequest
 import com.android.foodhub_android.data.models.ConfirmPaymentResponse
+import com.android.foodhub_android.data.models.FCMRequest
 import com.android.foodhub_android.data.models.FoodItemResponse
 import com.android.foodhub_android.data.models.GenericMsgResponse
+import com.android.foodhub_android.data.models.NotificationListResponse
 import com.android.foodhub_android.data.models.OAuthRequest
+import com.android.foodhub_android.data.models.Order
+import com.android.foodhub_android.data.models.OrderListResponse
 import com.android.foodhub_android.data.models.PaymentIntentRequest
 import com.android.foodhub_android.data.models.PaymentIntentResponse
 import com.android.foodhub_android.data.models.RestaurantResponse
@@ -25,6 +29,7 @@ import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -80,4 +85,20 @@ interface FoodApi {
         @Body request: ConfirmPaymentRequest,
         @Path("paymentIntentId") paymentIntentId: String
     ): Response<ConfirmPaymentResponse>
+
+    @GET("/orders")
+    suspend fun getOrders(): Response<OrderListResponse>
+
+    @GET("/orders/{orderId}")
+    suspend fun getOrderDetails(@Path("orderId") orderId: String): Response<Order>
+
+    @PUT("/notifications/fcm-token")
+    suspend fun updateToken(@Body request: FCMRequest): Response<GenericMsgResponse>
+
+    @POST("/notifications/{id}/read")
+    suspend fun readNotification(@Path("id") id: String): Response<GenericMsgResponse>
+
+    @GET("/notifications")
+    suspend fun getNotifications(): Response<NotificationListResponse>
+
 }

@@ -7,4 +7,5 @@ plugins {
     alias(libs.plugins.devtools.ksp) apply false//ksp
     alias(libs.plugins.kotlin.serialization) apply false// Kotlin Serialization
     alias(libs.plugins.kotlin.parcelize) apply false //Kotlin Parcelize
+    alias(libs.plugins.google.services) apply false // Google Services for Firebase
 }

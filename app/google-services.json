@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "848624313893",
+    "project_id": "foodhub-750ce",
+    "storage_bucket": "foodhub-750ce.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:848624313893:android:de7c098a55b73ec2bd41cc",
+        "android_client_info": {
+          "package_name": "com.android.foodhub_android_ravi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhq-lG4XR-JQmofggw44Z0o10qwdkCrSU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
